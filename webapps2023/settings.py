@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'webapps2023.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.webapps2023',
+        'NAME': BASE_DIR / 'db.webapps',
     }
 }
 
@@ -145,3 +145,4 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+

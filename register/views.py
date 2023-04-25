@@ -42,7 +42,7 @@ def register_page(request):
             form.save()
             messages.success(request, 'New account created successfully')
             if form.cleaned_data['currency'] != 'GBP':
-                user = CustomUser.objects.get(email=form.cleaned_data['email'])
+                user = CustomUser.objects.get(username=form.cleaned_data['username'])
                 url = f"gbp/{form.cleaned_data['currency']}/1000.00"
                 absolute_uri = request.build_absolute_uri('/conversion/' + url)
                 response = requests.get(absolute_uri)

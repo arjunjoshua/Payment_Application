@@ -12,7 +12,7 @@ CURRENCY_CHOICES = {
 
 class CustomUser(AbstractUser):
     username = models.CharField(unique=True, max_length=32, default='blank_user')
-    email = models.EmailField(unique=True)
+    email = models.EmailField(blank=True)
     first_name = models.CharField(max_length=64, blank=True)
     last_name = models.CharField(max_length=64, blank=True)
     account_balance = models.DecimalField(max_digits=15, default=1000, decimal_places=2, blank=True)
