@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Pending Requests{% endblock %}
+
+{% block content %}
+    <h1>Pending Requests</h1>
+    {% if requests %}
+        <table>
+            <thead>
+            <tr>
+                <th>Requester</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Timestamp</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for request in requests %}
+                <tr>
+                    <td>{{ request.requester.username }}</td>
+                    <td>{{ request.amount }}</td>
+                    <td>{{ request.currency }}</td>
+                    <td>{{ request.timestamp }}</td>
+                    <td>
+                        <button class="accept-btn" onclick="confirmAction({% url 'handle_request' request.id 'accept' %})">Accept</button>
+                        <button class="reject-btn" onclick="confirmAction({% url 'handle_request' request.id 'reject' %})">Reject</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no pending requests.</p>
+    {% endif %}
+{% endblock %}

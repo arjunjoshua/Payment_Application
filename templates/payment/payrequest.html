@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Request Money
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h4>Request Money</h4>
+    <form method="POST" class="form-group">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
+    <br>
+    <p class="text-center">Your account balance is {{ user.account_balance }} {{ user.currency }}</p>
+{% endblock %}
