@@ -4,11 +4,11 @@
 
 {% block content %}
     <h1>Pending Requests</h1>
-    {% if requests %}
+    {% if received_requests %}
         <table>
             <thead>
             <tr>
-                <th>Requester</th>
+                <th>Requested by</th>
                 <th>Amount</th>
                 <th>Currency</th>
                 <th>Timestamp</th>
@@ -16,15 +16,23 @@
             </tr>
             </thead>
             <tbody>
-            {% for request in requests %}
+            {% for request in received_requests %}
                 <tr>
-                    <td>{{ request.requester.username }}</td>
+                    <td>{{ request.sender }}</td>
                     <td>{{ request.amount }}</td>
                     <td>{{ request.currency }}</td>
                     <td>{{ request.timestamp }}</td>
                     <td>
-                        <button class="accept-btn" onclick="confirmAction({% url 'handle_request' request.id 'accept' %})">Accept</button>
-                        <button class="reject-btn" onclick="confirmAction({% url 'handle_request' request.id 'reject' %})">Reject</button>
+                        <form action="{% url 'handle_request' request.id 'accept' %}" method="post" onsubmit="return confirm('Are you sure you want to accept this payment request?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Accept</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{% url 'handle_request' request.id 'reject' %}" method="post" onsubmit="return confirm('Are you sure you want to reject this payment request?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
                     </td>
                 </tr>
             {% endfor %}
