@@ -7,11 +7,19 @@ from .models import CustomUser
 from currencyapi.serializers import ConvertedCurrencySerializer
 from currencyapi.models import ConvertedCurrency
 import requests
+from account.models import Notification
 
 
 @login_required(login_url='/login')
 def home(request):
-    return render(request, 'home.html')
+    # Retrieve the user's unread notifications
+    notifications = Notification.objects.filter(user=request.user, unread=True)
+
+    # Render the dashboard template with the user's pay requests, transactions, and notifications
+    context = {
+        'notifications': notifications,
+    }
+    return render(request, 'home.html', context)
 
 
 def login_page(request):
@@ -71,5 +79,4 @@ def register_page(request):
 @login_required(login_url='/login')
 def logout_user(request):
     logout(request)
-    messages.success(request, 'You have been successfully logged out')
     return redirect('login')

@@ -1,0 +1,7 @@
+{% if notifications %}
+    {% for notification in notifications %}
+        <a class="dropdown-item" href="{{ notification.url }}" onclick="markAsRead()">{{ notification.message }}</a>
+    {% endfor %}
+{% else %}
+    <a class="dropdown-item disabled">No new notifications</a>
+{% endif %}

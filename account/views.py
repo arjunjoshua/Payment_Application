@@ -9,6 +9,11 @@ from currencyapi.serializers import ConvertedCurrencySerializer
 from currencyapi.models import ConvertedCurrency
 from django.db import transaction
 from django.utils import timezone
+from django.http import JsonResponse
+from .models import Notification
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required
@@ -21,7 +26,7 @@ def pending_requests(request):
     return render(request, 'account/pendingrequests.html', context)
 
 
-@login_required()
+@login_required
 def transaction_history(request):
     user = request.user
     sender_transactions = Transaction.objects.filter(sender=user)
@@ -79,3 +84,35 @@ def handle_request(request, request_id, action):
     elif action == 'reject':
         pay_request.delete()
     return redirect('pendingrequests')
+
+
+@login_required
+def notifications(request):
+    notifications = Notification.objects.filter(user=request.user, unread=True)
+    messages.success(request, 'Notification view called')
+    return render(request, 'account/notifications.html', {'notifications': notifications})
+
+
+@login_required
+@csrf_exempt
+def mark_as_read(request):
+    if request.method == 'POST':
+        Notification.objects.filter(user=request.user, unread=True).update(unread=False)
+        return JsonResponse({'success': True})
+
+
+@receiver(post_save, sender=Transaction)
+def notify_transaction(sender, instance, **kwargs):
+    if instance.recipient:
+        amount = Decimal(instance.amount)
+        message = f"You received a payment of {amount} {instance.currency} from {instance.sender.username}."
+        Notification.objects.create(user=instance.recipient, message=message)
+
+
+@receiver(post_save, sender=PayRequest)
+def notify_pay_request(sender, instance, **kwargs):
+    if instance.recipient:
+        amount = Decimal(instance.amount)
+        message = f"You received a payment request of {amount} {instance.currency} from {instance.sender.username}."
+        url = '/account/pendingrequests'
+        Notification.objects.create(user=instance.recipient, message=message, url=url)

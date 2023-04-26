@@ -67,7 +67,7 @@ def make_payment(request):
     else:
         payment_form = PaymentForm()
 
-    return render(request, 'payment/payuser.html', {'form': payment_form})
+    return render(request, 'payment/payuser.html', {'form': payment_form},)
 
 
 @login_required(login_url='/login')
