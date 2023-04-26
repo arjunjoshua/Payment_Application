@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Welcome, Administrator</h1>
+    <p>Choose an option:</p>
+    <ul>
+        <li><a href="{% url 'view_accounts' %}">View All Accounts</a></li>
+        <li><a href="{% url 'view_transactions' %}">View All Transactions</a></li>
+    </ul>
+{% endblock %}

@@ -104,15 +104,13 @@ def mark_as_read(request):
 @receiver(post_save, sender=Transaction)
 def notify_transaction(sender, instance, **kwargs):
     if instance.recipient:
-        amount = Decimal(instance.amount)
-        message = f"You received a payment of {amount} {instance.currency} from {instance.sender.username}."
+        message = f"You received a payment of {instance.amount:.2f} {instance.currency} from {instance.sender.username}."
         Notification.objects.create(user=instance.recipient, message=message)
 
 
 @receiver(post_save, sender=PayRequest)
 def notify_pay_request(sender, instance, **kwargs):
     if instance.recipient:
-        amount = Decimal(instance.amount)
-        message = f"You received a payment request of {amount} {instance.currency} from {instance.sender.username}."
+        message = f"You received a payment request of {instance.amount:.2f} {instance.currency} from {instance.sender.username}."
         url = '/account/pendingrequests'
         Notification.objects.create(user=instance.recipient, message=message, url=url)

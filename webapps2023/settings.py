@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'currencyapi',
     'account',
     'requests',
-    'paymentapp'
+    'paymentapp',
+    'administration',
 ]
 
 MIDDLEWARE = [
