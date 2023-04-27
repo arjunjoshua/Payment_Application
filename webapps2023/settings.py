@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'requests',
     'payapp',
     'administration',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
