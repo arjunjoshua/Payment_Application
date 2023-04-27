@@ -1,19 +1,24 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django import forms
-from .models import CustomUser
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Field, HTML, ButtonHolder, Row, Column
-from .models import CURRENCY_CHOICES
+from crispy_forms.layout import Layout, Row, Column, Submit, ButtonHolder
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from .models import CustomUser
+
+CURRENCY_CHOICES = (
+    ('USD', 'USD'),
+    ('EUR', 'EUR'),
+    ('GBP', 'GBP'),
+)
 
 
 class CustomRegisterForm(UserCreationForm):
-    username = forms.CharField(label='Username')
-    email = forms.EmailField(label='Email')
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
-    first_name = forms.CharField(label='First Name')
-    last_name = forms.CharField(label='Last Name')
-    currency = forms.CharField(max_length=3, widget=forms.Select(choices=CURRENCY_CHOICES))
+    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
+    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}))
+    first_name = forms.CharField(label='First Name', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
+    last_name = forms.CharField(label='Last Name', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
+    currency = forms.CharField(max_length=3, widget=forms.Select(choices=CURRENCY_CHOICES, attrs={'class': 'form-select', 'placeholder': 'Select Currency'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -21,21 +26,26 @@ class CustomRegisterForm(UserCreationForm):
         self.helper.form_method = 'post'
         self.helper.form_show_labels = False
         self.helper.layout = Layout(
-            Column(Field('username', placeholder="Username", css_class="text-center"), css_class='col-md-4 mx-auto'),
-            Column(Field('email', placeholder="Email", css_class="text-center"), css_class='col-md-4 mx-auto'),
-            Column(Field('password1', placeholder="Password", css_class="text-center"), css_class='col-md-4 mx-auto'),
-            Column(Field('password2', placeholder="Re-Enter Password", css_class="text-center"), css_class='col-md-4 mx-auto'),
-            Column(Field('first_name', placeholder="First Name", css_class="text-center"), css_class='col-md-4 mx-auto'),
-            Column(Field('last_name', placeholder="Last Name", css_class="text-center"), css_class='col-md-4 mx-auto'),
             Row(
-                Column(HTML('<p>Select Currency:</p>'), css_class='col-md-4 mx-auto'),
-                Column('currency', css_class='col-md-5 mx-auto'),
-                css_class='col-md-4 mx-auto'
+                Column('username', css_class='col-12 col-md-6'),
+                Column('email', css_class='col-12 col-md-6'),
+                css_class='mb-3'
             ),
-            ButtonHolder(
-                Submit('submit', 'Register', css_class='btn-primary'),
-                css_class="text-center"
+            Row(
+                Column('password1', css_class='col-12 col-md-6'),
+                Column('password2', css_class='col-12 col-md-6'),
+                css_class='mb-3'
             ),
+            Row(
+                Column('first_name', css_class='col-12 col-md-6'),
+                Column('last_name', css_class='col-12 col-md-6'),
+                css_class='mb-3'
+            ),
+            Row(
+                Column('currency', css_class='col-12 col-md-6'),
+                css_class='mb-3'
+            ),
+            Submit('submit', 'Register', css_class='btn btn-primary'),
         )
 
     class Meta:
@@ -50,8 +60,8 @@ class CustomRegisterForm(UserCreationForm):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='Username')
-    password = forms.CharField(label='password', widget=forms.PasswordInput)
+    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -60,16 +70,16 @@ class LoginForm(forms.Form):
         self.helper.form_class = 'form-horizontal'
         self.helper.form_show_labels = False
         self.helper.layout = Layout(
-            Column(Field('username', placeholder="Username", css_class="text-center"), css_class='col-md-4 mx-auto'),
-            Column(Field('password', placeholder="Password", css_class="text-center"), css_class='col-md-4 mx-auto'),
+            Row(
+                Column('username', css_class='col-md-4 mx-auto mb-3'),
+                css_class='justify-content-center'
+            ),
+            Row(
+                Column('password', css_class='col-md-4 mx-auto mb-3'),
+                css_class='justify-content-center'
+            ),
             ButtonHolder(
-                Submit('submit', 'Login', css_class="btn-primary"),
-                css_class="text-center"
+                Submit('submit', 'Login', css_class='btn-primary'),
+                css_class='d-flex justify-content-center mt-3'
             ),
         )
-
-
-class CustomUserChangeForm(UserChangeForm):
-    class Meta:
-        model = CustomUser
-        fields = ("email",)

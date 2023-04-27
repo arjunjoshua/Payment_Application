@@ -1,63 +1,32 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Account home page
+    Account Home
 {% endblock %}
 
 {% block content %}
-    <head>
-        <title>My Account</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: #f8f8f8;
-            }
-            h1 {
-                font-size: 2em;
-                text-align: center;
-                margin: 2em auto;
-                color: #333;
-            }
-            p {
-                font-size: 1.2em;
-                text-align: center;
-                margin: 1em auto;
-                color: #555;
-            }
-            button {
-                display: block;
-                margin: 2em auto;
-                padding: 1em 2em;
-                font-size: 1.2em;
-                color: #fff;
-                background-color: #2ecc71;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            }
-            button:hover {
-                background-color: #2980b9;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Hello {{ user.first_name }}</h1>
-        <p>Your account balance is: {{ user.account_balance|floatformat:2 }} {{ user.currency|upper }}</p>
-        <div>
-            <a href="/paymentapp/payuser">
-                <button type="button" >
-                    Make a payment
-                </button>
-            </a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h1 class="text-center">Hello, {{ user.first_name }}</h1>
+                <div class="text-center">
+                    <p>Your account balance is: <span class="font-weight-bold">{{ user.account_balance|floatformat:2 }} {{ user.currency|upper }}</span></p>
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'payuser' %}">
+                        <button class="btn btn-primary mt-4">
+                            Make a Payment
+                        </button>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'payrequest' %}">
+                        <button class="btn btn-primary mt-4">
+                            Request a Payment
+                        </button>
+                    </a>
+                </div>
+            </div>
         </div>
-        <br>
-        <div>
-            <a href="/paymentapp/payrequest">
-                <button type="button">Request a payment</button>
-            </a>
-        </div>
-    </body>
-    </html>
+    </div>
 {% endblock %}

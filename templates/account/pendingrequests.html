@@ -20,7 +20,7 @@
                 <tr>
                     <td>{{ request.sender }}</td>
                     <td>{{ request.amount }}</td>
-                    <td>{{ request.currency }}</td>
+                    <td>{{ request.currency|upper }}</td>
                     <td>{{ request.timestamp }}</td>
                     <td>
                         <form action="{% url 'handle_request' request.id 'accept' %}" method="post" onsubmit="return confirm('Are you sure you want to accept this payment request?');">

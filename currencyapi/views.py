@@ -11,12 +11,12 @@ class Converter(APIView):
         currency1 = self.kwargs.get('currency1')
         currency2 = self.kwargs.get('currency2')
         conversion_rate = {
-            'gbp_usd': 1.37,
-            'gbp_eur': 1.16,
-            'usd_gbp': 0.73,
-            'usd_eur': 0.84,
-            'eur_gbp': 0.86,
-            'eur_usd': 1.19
+            'GBP_USD': 1.37,
+            'GBP_EUR': 1.16,
+            'USD_GBP': 0.73,
+            'USD_EUR': 0.84,
+            'EUR_GBP': 0.86,
+            'EUR_USD': 1.19
         }
         amount1 = float(self.kwargs.get('amount1'))
         amount2 = decimal.Decimal(0.00)

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>View All Accounts</h1>
+    <h1>User Accounts</h1>
     <table>
         <thead>
         <tr>
@@ -15,7 +15,7 @@
             <tr>
                 <td>{{ account.username }}</td>
                 <td>{{ account.account_balance }}</td>
-                <td>{{ account.currency }}</td>
+                <td>{{ account.currency|upper }}</td>
             </tr>
         {% endfor %}
         </tbody>

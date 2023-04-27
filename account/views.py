@@ -88,7 +88,7 @@ def handle_request(request, request_id, action):
 
 @login_required
 def notifications(request):
-    notifications = Notification.objects.filter(user=request.user, unread=True)
+    notifications = Notification.objects.filter(user=request.user, unread=True).order_by('-timestamp')
     messages.success(request, 'Notification view called')
     return render(request, 'account/notifications.html', {'notifications': notifications})
 
@@ -104,13 +104,13 @@ def mark_as_read(request):
 @receiver(post_save, sender=Transaction)
 def notify_transaction(sender, instance, **kwargs):
     if instance.recipient:
-        message = f"You received a payment of {instance.amount:.2f} {instance.currency} from {instance.sender.username}."
+        message = f"You received a payment of {instance.amount:.2f} {instance.currency.upper()} from {instance.sender.username}."
         Notification.objects.create(user=instance.recipient, message=message)
 
 
 @receiver(post_save, sender=PayRequest)
 def notify_pay_request(sender, instance, **kwargs):
     if instance.recipient:
-        message = f"You received a payment request of {instance.amount:.2f} {instance.currency} from {instance.sender.username}."
+        message = f"You received a payment request of {instance.amount:.2f} {instance.currency.upper()} from {instance.sender.username}."
         url = '/account/pendingrequests'
         Notification.objects.create(user=instance.recipient, message=message, url=url)

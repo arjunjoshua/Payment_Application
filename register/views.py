@@ -23,7 +23,9 @@ def home(request):
 
 
 def login_page(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('admin_home')
+    elif request.user.is_authenticated and not request.user.is_staff:
         return redirect('home')
 
     if request.method == 'POST':
@@ -32,7 +34,10 @@ def login_page(request):
             user = authenticate(request, username=login_form.cleaned_data['username'],
                                 password=login_form.cleaned_data['password'])
 
-            if user is not None:
+            if user is not None and user.is_staff:
+                login(request, user)
+                return redirect('admin_home')
+            elif user is not None and not user.is_staff:
                 login(request, user)
                 return redirect('home')
             else:
@@ -51,7 +56,7 @@ def register_page(request):
             messages.success(request, 'New account created successfully')
             if form.cleaned_data['currency'] != 'GBP':
                 user = CustomUser.objects.get(username=form.cleaned_data['username'])
-                url = f"gbp/{form.cleaned_data['currency']}/1000.00"
+                url = f"GBP/{form.cleaned_data['currency']}/1000.00"
                 absolute_uri = request.build_absolute_uri('/conversion/' + url)
                 response = requests.get(absolute_uri)
                 if response.status_code == 200:
@@ -69,7 +74,7 @@ def register_page(request):
                 return redirect('login')
         else:
             messages.error(request, 'Error during registration, please try again.')
-            return redirect('register')
+            print(form.errors)
     else:
         form = CustomRegisterForm()
 
