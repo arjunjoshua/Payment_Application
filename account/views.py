@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from paymentapp.models import PayRequest, Transaction
+from payapp.models import PayRequest, Transaction
 from django.contrib import messages
 from register.models import CustomUser
 from decimal import Decimal

@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('paymentapp', '0002_transaction_currency'),
+        ('payapp', '0002_transaction_currency'),
     ]
 
     operations = [

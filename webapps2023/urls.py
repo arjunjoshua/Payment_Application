@@ -11,6 +11,6 @@ urlpatterns = [
     path("login/", views.login_page, name="login"),
     path("conversion/", include('currencyapi.urls')),
     path("logout/", views.logout_user, name='logout'),
-    path("paymentapp/", include('paymentapp.urls')),
+    path("payapp/", include('payapp.urls')),
     path("account/", include('account.urls')),
 ]

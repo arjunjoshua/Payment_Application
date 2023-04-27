@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'currencyapi',
     'account',
     'requests',
-    'paymentapp',
+    'payapp',
     'administration',
 ]
 
