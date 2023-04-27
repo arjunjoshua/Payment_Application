@@ -18,14 +18,13 @@ class Converter(APIView):
             'EUR_GBP': 0.86,
             'EUR_USD': 1.19
         }
-        amount1 = float(self.kwargs.get('amount1'))
-        amount2 = decimal.Decimal(0.00)
+        rate = 0.0
         conversion_rate_key = f"{currency1}_{currency2}"
         if conversion_rate_key in conversion_rate:
-            amount2 = amount1 * conversion_rate[conversion_rate_key]
+            rate = conversion_rate[conversion_rate_key]
         else:
             is_success = False
 
-        response = ConvertedCurrencySerializer(ConvertedCurrency(amount2, is_success))
+        response = ConvertedCurrencySerializer(ConvertedCurrency(rate, is_success))
 
         return Response(response.data)

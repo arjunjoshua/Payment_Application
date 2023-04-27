@@ -58,10 +58,11 @@ def handle_request(request, request_id, action):
             if response.status_code == 200:
                 serializer = ConvertedCurrencySerializer(data=response.json())
                 if serializer.is_valid():
-                    conversion_response = ConvertedCurrency(serializer.validated_data['amount'],
+                    conversion_response = ConvertedCurrency(serializer.validated_data['rate'],
                                                             serializer.validated_data['is_success'])
                     if conversion_response.is_success:
-                        converted_amount = Decimal(conversion_response.amount)
+                        converted_amount = conversion_response.rate * amount
+                        converted_amount = Decimal(converted_amount)
                 else:
                     messages.error(request, 'Your currency could not be converted.')
             else:

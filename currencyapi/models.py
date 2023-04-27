@@ -2,7 +2,7 @@ from django.db import models
 
 
 class ConvertedCurrency(models.Model):
-    amount = models.FloatField()
+    rate = models.DecimalField(decimal_places=2, max_digits=4)
     is_success = models.BooleanField(default=False)
     objects = models.Manager()
 
@@ -11,6 +11,6 @@ class ConvertedCurrency(models.Model):
 
     def __init__(self, amount, is_success, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.amount = amount
+        self.rate = amount
         self.is_success = is_success
 

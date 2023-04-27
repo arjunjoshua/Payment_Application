@@ -62,10 +62,10 @@ def register_page(request):
                 if response.status_code == 200:
                     serializer = ConvertedCurrencySerializer(data=response.json())
                     if serializer.is_valid():
-                        conversion_response = ConvertedCurrency(serializer.validated_data['amount'],
+                        conversion_response = ConvertedCurrency(serializer.validated_data['rate'],
                                                                 serializer.validated_data['is_success'])
                         if conversion_response.is_success:
-                            user.account_balance = conversion_response.amount
+                            user.account_balance = conversion_response.rate * 1000
                             user.save()
                     else:
                         messages.error(request, 'Your currency could not be converted.')
@@ -74,7 +74,6 @@ def register_page(request):
                 return redirect('login')
         else:
             messages.error(request, 'Error during registration, please try again.')
-            print(form.errors)
     else:
         form = CustomRegisterForm()
 
