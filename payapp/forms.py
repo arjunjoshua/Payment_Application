@@ -23,6 +23,7 @@ class PaymentForm(forms.Form):
             ),
         )
 
+    # returns an error in the form if the entered user does not exist
     def clean_username(self):
         username = self.cleaned_data.get('username')
         try:
@@ -51,6 +52,7 @@ class RequestForm(forms.Form):
             ),
         )
 
+    # returns an error in the form if the entered user does not exist
     def clean_username(self):
         username = self.cleaned_data.get('username')
         try:

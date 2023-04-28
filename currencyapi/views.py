@@ -10,6 +10,7 @@ class Converter(APIView):
         is_success = True
         currency1 = self.kwargs.get('currency1')
         currency2 = self.kwargs.get('currency2')
+        # check the currencies against the dictionary and return rate if applicable
         conversion_rate = {
             'GBP_USD': 1.37,
             'GBP_EUR': 1.16,

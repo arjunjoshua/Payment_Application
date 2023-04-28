@@ -7,7 +7,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h4>Transfer Money</h4>
+    <h4 style="text-align: center">Transfer Money</h4>
+    <br>
     <form method="POST" class="form-group">
         {% csrf_token %}
         {% crispy form %}

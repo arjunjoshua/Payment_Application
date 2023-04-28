@@ -23,6 +23,7 @@ def home(request):
 
 
 def login_page(request):
+    # Redirect standard users to the acccount home page and superusers to the admin home page
     if request.user.is_authenticated and request.user.is_staff:
         return redirect('admin_home')
     elif request.user.is_authenticated and not request.user.is_staff:
@@ -54,6 +55,8 @@ def register_page(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'New account created successfully')
+
+            # Call the currencyapi if the selected currency isn't GBP
             if form.cleaned_data['currency'] != 'GBP':
                 user = CustomUser.objects.get(username=form.cleaned_data['username'])
                 url = f"GBP/{form.cleaned_data['currency']}/1000.00"

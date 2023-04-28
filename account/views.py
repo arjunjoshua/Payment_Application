@@ -70,7 +70,7 @@ def handle_request(request, request_id, action):
         else:
             converted_amount = amount
 
-        # Carry out payments
+        # Carry out payment
         sender.account_balance -= amount
         recipient.account_balance += converted_amount
         sender.save()

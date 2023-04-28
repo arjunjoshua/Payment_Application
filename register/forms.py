@@ -69,6 +69,8 @@ class LoginForm(forms.Form):
         self.helper.form_method = 'post'
         self.helper.form_class = 'form-horizontal'
         self.helper.form_show_labels = False
+
+        # Code to set the layout of the form
         self.helper.layout = Layout(
             Row(
                 Column('username', css_class='col-md-4 mx-auto mb-3'),
